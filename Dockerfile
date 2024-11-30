@@ -18,10 +18,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app/
 
 # 运行数据库迁移
+RUN python manage.py makemigrations
 RUN python manage.py migrate
 
 # 收集静态文件
 RUN python manage.py collectstatic --noinput
 
 # 启动命令
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "your_project_name.wsgi:application"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "SweetFamilyAffairs.wsgi:application"]
