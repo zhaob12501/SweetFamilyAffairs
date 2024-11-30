@@ -1,6 +1,18 @@
 version: '3.8'
 
 services:
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: SweetFamilyAffairs
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 123qwe!@#QWE
+      MYSQL_ROOT_PASSWORD: 123qwe!@#QWE
+    volumes:
+      - mysql_data:/var/lib/mysql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci  # 设置字符集和排序规则
+
   web:
     build: .
     command: gunicorn SweetFamilyAffairs.wsgi:application --bind 0.0.0.0:8000
@@ -15,17 +27,6 @@ services:
       - DATABASE_PASSWORD=123qwe!@#QWE
     depends_on:
       - db
-
-  db:
-    image: mysql:8.0
-    environment:
-      MYSQL_DATABASE: SweetFamilyAffairs
-      MYSQL_USER: root
-      MYSQL_PASSWORD: 123qwe!@#QWE
-      MYSQL_ROOT_PASSWORD: 123qwe!@#QWE
-    volumes:
-      - mysql_data:/var/lib/mysql
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci  # 设置字符集和排序规则
 
 volumes:
   mysql_data:
