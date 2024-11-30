@@ -1,22 +1,6 @@
-# apis/models.py
-
 from django.contrib.auth.models import User, AbstractUser
 from django.db import models
 
-class User(AbstractUser):
-    """
-    扩展Django自带的AbstractUser模型，添加微信小程序用户特有的字段。
-    - weixin_openid: 用户在微信的唯一标识符。
-    - weixin_unionid: 用户在微信开放平台的唯一标识符，可用于识别同一个用户在不同应用中的身份。
-    """
-    weixin_openid = models.CharField(max_length=255, blank=True, null=True, unique=True, verbose_name="微信OpenID")
-    weixin_unionid = models.CharField(max_length=255, blank=True, null=True, unique=True, verbose_name="微信UnionID")
-
-    def __str__(self):
-        """
-        返回用户的字符串表示，通常用于调试和后台管理界面。
-        """
-        return self.username
 
 class HouseholdTask(models.Model):
     """
@@ -34,6 +18,7 @@ class HouseholdTask(models.Model):
         返回任务的字符串表示，通常用于调试和后台管理界面。
         """
         return self.task_name
+
 
 class TaskCompletion(models.Model):
     """
@@ -53,6 +38,7 @@ class TaskCompletion(models.Model):
         返回任务完成记录的字符串表示，通常用于调试和后台管理界面。
         """
         return f"{self.user} - {self.task}"
+
 
 class RedeemItem(models.Model):
     """
@@ -75,6 +61,7 @@ class RedeemItem(models.Model):
         """
         return self.item_name
 
+
 class PointsHistory(models.Model):
     """
     积分历史记录模型，用于记录用户积分的变化历史。
@@ -93,6 +80,7 @@ class PointsHistory(models.Model):
         返回积分历史记录的字符串表示，通常用于调试和后台管理界面。
         """
         return f"{self.user} - {self.points_change}"
+
 
 class PointsRedeem(models.Model):
     """

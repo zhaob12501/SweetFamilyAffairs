@@ -1,13 +1,5 @@
 from rest_framework import serializers
-from .models import User, HouseholdTask, TaskCompletion, RedeemItem, PointsHistory, PointsRedeem
-
-class UserSerializer(serializers.ModelSerializer):
-    """
-    用户序列化器
-    """
-    class Meta:
-        model = User
-        fields = ['id', 'username', 'weixin_openid', 'weixin_unionid']
+from .models import HouseholdTask, TaskCompletion, RedeemItem, PointsHistory, PointsRedeem
 
 class HouseholdTaskSerializer(serializers.ModelSerializer):
     """

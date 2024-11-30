@@ -1,7 +1,6 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from django.urls import path, include, re_path
 
 urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('apis/', include('apis.urls')),
+    path('', include('items.urls')),
 ]
