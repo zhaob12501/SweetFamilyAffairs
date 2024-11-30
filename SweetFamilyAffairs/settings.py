@@ -88,9 +88,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'SweetFamilyAffairs',
-        'USER': os.environ.get('DATABASE_USER', 'your_database_user'),
-        'PASSWORD': os.environ.get('DATABASE_PASSWORD', 'your_database_password'),
-        'HOST': os.environ.get('DATABASE_HOST', 'db'),  # 使用服务名
+        'USER': os.environ.get('DATABASE_USER'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
+        'HOST': os.environ.get('DATABASE_HOST'),  # 使用服务名
         'PORT': 3306,
         'OPTIONS': {
             'charset': 'utf8mb4',
