@@ -2,6 +2,14 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from pathlib import Path
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent
+sys.path.insert(1, os.path.join(BASE_DIR, "extra_apps"))
+sys.path.insert(1, os.path.join(BASE_DIR, "apps"))
+
+
 
 
 def main():

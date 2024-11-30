@@ -9,12 +9,31 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
+import sys
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+sys.path.insert(1, os.path.join(BASE_DIR, "extra_apps"))
+sys.path.insert(1, os.path.join(BASE_DIR, "apps"))
 
+from django.db.backends.base.base import BaseDatabaseWrapper
+
+
+def check_database_version_supported(self):
+    """ 在这里修改check_database_version_supported方法以适配MySQL5.7
+    """
+    if (
+            self.features.minimum_database_version is not None
+            and self.get_database_version() < self.features.minimum_database_version
+    ):
+        db_version = ".".join(map(str, self.get_database_version()))
+        min_db_version = ".".join(map(str, self.features.minimum_database_version))
+        print(f"WARNNING The current MySQL version:{db_version}The recommended MySQL version:{min_db_version}")
+
+
+BaseDatabaseWrapper.check_database_version_supported = check_database_version_supported
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -27,18 +46,21 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+    # 'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'api.apps.UsersConfig',
+    'social_django',
     'rest_framework',
+    'rest_framework_jwt',
+
 ]
 
 MIDDLEWARE = [
@@ -53,36 +75,28 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'SweetFamilyAffairs.urls'
 
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
-]
-
 WSGI_APPLICATION = 'SweetFamilyAffairs.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',  # 使用 SQLite 数据库
+    #     'NAME': BASE_DIR / "db.sqlite3",  # 数据库文件的路径
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'SweetFamilyAffairs',
+        'USER': os.environ.get('DATABASE_USER', 'your_database_user'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD', 'your_database_password'),
+        'HOST': os.environ.get('DATABASE_HOST', 'db'),  # 使用服务名
+        'PORT': 3306,
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        },
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -102,7 +116,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -117,8 +130,6 @@ USE_L10N = True
 # 数据库存储使用时间，True时间会被存为UTC的时间
 USE_TZ = False
 
-
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
@@ -129,11 +140,11 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.IsAuthenticated',
     ]
 }
