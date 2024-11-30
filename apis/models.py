@@ -1,9 +1,9 @@
-# api/models.py
+# apis/models.py
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 from django.db import models
 
-class User(User):
+class User(AbstractUser):
     """
     扩展Django自带的AbstractUser模型，添加微信小程序用户特有的字段。
     - weixin_openid: 用户在微信的唯一标识符。

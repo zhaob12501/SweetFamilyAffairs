@@ -108,7 +108,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 "verbose_name": "user",
-                "verbose_name_plural": "api",
+                "verbose_name_plural": "apis",
                 "abstract": False,
             },
             bases=("auth.user",),
@@ -138,7 +138,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="completions",
-                        to="api.householdtask",
+                        to="apis.householdtask",
                         verbose_name="任务",
                     ),
                 ),
@@ -147,7 +147,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="task_completions",
-                        to="api.user",
+                        to="apis.user",
                         verbose_name="用户",
                     ),
                 ),
@@ -175,7 +175,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="redeemed_by",
-                        to="api.redeemitem",
+                        to="apis.redeemitem",
                         verbose_name="物品",
                     ),
                 ),
@@ -184,7 +184,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="points_redeem",
-                        to="api.user",
+                        to="apis.user",
                         verbose_name="用户",
                     ),
                 ),
@@ -216,7 +216,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="points_history",
-                        to="api.user",
+                        to="apis.user",
                         verbose_name="用户",
                     ),
                 ),

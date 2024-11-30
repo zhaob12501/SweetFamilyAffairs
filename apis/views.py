@@ -1,6 +1,37 @@
-from rest_framework import viewsets
+from rest_framework import status, viewsets, permissions
+from rest_framework.response import Response
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
 from .models import HouseholdTask, TaskCompletion, RedeemItem, PointsHistory, PointsRedeem
 from .serializers import HouseholdTaskSerializer, TaskCompletionSerializer, RedeemItemSerializer, PointsHistorySerializer, PointsRedeemSerializer
+
+
+class ApiView(APIView):
+    def get(self,request):
+        return Response({}, status=status.HTTP_200_OK)
+
+class TokenObtainPairView(TokenObtainPairView):
+    permission_classes = (permissions.AllowAny,)
+
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        # 可以在这里添加额外的用户信息到响应中
+        return Response({
+            'access': response.data['access'],
+            'refresh': response.data['refresh'],
+            'user': {
+                'username': request.user.username,
+                'email': request.user.email,
+            }
+        })
+
+
+class ProtectedView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        return Response({'message': 'This is a protected view!'})
 
 
 class HouseholdTaskViewSet(viewsets.ModelViewSet):
@@ -41,20 +72,3 @@ class PointsRedeemViewSet(viewsets.ModelViewSet):
     """
     queryset = PointsRedeem.objects.all()
     serializer_class = PointsRedeemSerializer
-
-
-from django.conf import settings
-from django.http import HttpResponseRedirect
-from social_core.actions import do_auth
-from social_django.utils import load_backend, load_strategy
-
-
-def weixin_login(request):
-    """
-    微信登录回调处理
-    """
-    backend = load_backend(load_strategy(request),
-                           settings.AUTHENTICATION_BACKENDS,
-                           'weixin',
-                           request=request)
-    return do_auth(backend, request)
