@@ -10,8 +10,6 @@ sys.path.insert(1, os.path.join(BASE_DIR, "extra_apps"))
 sys.path.insert(1, os.path.join(BASE_DIR, "apps"))
 
 
-
-
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'SweetFamilyAffairs.settings')
