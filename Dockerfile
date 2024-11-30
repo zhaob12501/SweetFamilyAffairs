@@ -1,5 +1,5 @@
 # 使用官方 Python 3.12 镜像作为基础镜像
-FROM python:3.12-slim
+FROM python:3.11-slim
 
 # 设置环境变量
 ENV PYTHONDONTWRITEBYTECODE 1
