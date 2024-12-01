@@ -57,8 +57,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'items',
     'rest_framework',
+    'items',
 
 ]
 
@@ -75,6 +75,19 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'SweetFamilyAffairs.urls'
 
 WSGI_APPLICATION = 'SweetFamilyAffairs.wsgi.application'
+
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # 自定义模板目录
+        'APP_DIRS': True,  # 确保这个选项为 True
+        'OPTIONS': {
+            'context_processors': [
+            ],
+        },
+    },
+]
 
 
 # Database
@@ -140,15 +153,15 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-}
-
-# JWT 配置（可根据需要调整）
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-}
-
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework_simplejwt.authentication.JWTAuthentication',
+#     ),
+# }
+#
+# # JWT 配置（可根据需要调整）
+# SIMPLE_JWT = {
+#     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+#     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+# }
+#
