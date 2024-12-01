@@ -45,8 +45,10 @@ SECRET_KEY = 'django-insecure-p0q_gg8(8=-6av41qcttp^5o)d74r0vv6d21i1pxj5sc&428^h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+if DEBUG:
+    ALLOWED_HOSTS = ['*']
+else:
+    ALLOWED_HOSTS = ['0.0.0.0']
 # Application definition
 
 INSTALLED_APPS = [
@@ -83,21 +85,21 @@ WSGI_APPLICATION = 'SweetFamilyAffairs.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',  # 使用 SQLite 数据库
-        'NAME': BASE_DIR / "db.sqlite3",  # 数据库文件的路径
-    }
     # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'SweetFamilyAffairs',
-    #     'HOST': os.environ.get('MYSQL_ADDRESS', "").split(":")[0] or '10.40.109.103',  # 使用服务名
-    #     'USER': os.environ.get('DATABASE_USER', 'root'),
-    #     'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
-    #     'PORT': 3306,
-    #     'OPTIONS': {
-    #         'charset': 'utf8mb4',
-    #     },
+    #     'ENGINE': 'django.db.backends.sqlite3',  # 使用 SQLite 数据库
+    #     'NAME': BASE_DIR / "db.sqlite3",  # 数据库文件的路径
     # }
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'SweetFamilyAffairs',
+        'HOST': os.environ.get('MYSQL_ADDRESS', "").split(":")[0] or '10.40.109.103',  # 使用服务名
+        'USER': os.environ.get('MYSQL_USERNAME', 'root'),
+        'PASSWORD': os.environ.get('MYSQL_PASSWORD', '123qwe!@#QWE'),
+        'PORT': os.environ.get('MYSQL_ADDRESS', "").split(":")[1] or 3306,
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        },
+    }
 }
 
 # Password validation

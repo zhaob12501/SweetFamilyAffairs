@@ -20,13 +20,6 @@ COPY . /app
 # 设定当前的工作目录
 WORKDIR /app
 
-# 设置环境变量
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-ENV MYSQL_ADDRESS=10.40.109.103:3306
-ENV MYSQL_USERNAME=SFA
-ENV MYSQL_PASSWORD=123qwe!@#QWE
-
 # 安装依赖到指定的/install文件夹
 # 选用国内镜像源以提高下载速度
 RUN pip config set global.index-url http://mirrors.cloud.tencent.com/pypi/simple \
