@@ -77,17 +77,6 @@ ROOT_URLCONF = 'SweetFamilyAffairs.urls'
 WSGI_APPLICATION = 'SweetFamilyAffairs.wsgi.application'
 
 
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # 自定义模板目录
-        'APP_DIRS': True,  # 确保这个选项为 True
-        'OPTIONS': {
-            'context_processors': [
-            ],
-        },
-    },
-]
 
 
 # Database
@@ -101,10 +90,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'SweetFamilyAffairs',
-        'USER': os.environ.get("MYSQL_USERNAME"),
-        'HOST': os.environ.get("MYSQL_ADDRESS").split(':')[0],
-        'PORT': os.environ.get("MYSQL_ADDRESS").split(':')[1],
-        'PASSWORD': os.environ.get("MYSQL_PASSWORD"),
+        'HOST': os.environ.get('DATABASE_HOST', '10.40.109.103'),  # 使用服务名
+        'USER': os.environ.get('DATABASE_USER', 'root'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD', '123qwe!@#QWE'),
+        'PORT': 3306,
         'OPTIONS': {
             'charset': 'utf8mb4',
         },
