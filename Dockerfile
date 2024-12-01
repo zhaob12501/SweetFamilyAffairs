@@ -3,16 +3,8 @@
 # 已知alpine镜像与pytorch有兼容性问题会导致构建失败，如需使用pytorch请务必按需更换基础镜像。
 FROM python:3.12-alpine
 
-# 设置环境变量
-#ENV PYTHONDONTWRITEBYTECODE=1
-#ENV PYTHONUNBUFFERED=1
-#ENV MYSQL_ADDRESS=10.40.109.103:3306
-#ENV MYSQL_USERNAME=SFA
-#ENV MYSQL_PASSWORD=123qwe!@#QWE
-
-
 # 容器默认时区为UTC，如需使用上海时间请启用以下时区设置命令
-# RUN apk add tzdata && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo Asia/Shanghai > /etc/timezone
+RUN apk add tzdata && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo Asia/Shanghai > /etc/timezone
 
 # 使用 HTTPS 协议访问容器云调用证书安装
 RUN apk add ca-certificates
@@ -27,6 +19,13 @@ COPY . /app
 
 # 设定当前的工作目录
 WORKDIR /app
+
+# 设置环境变量
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV MYSQL_ADDRESS=10.40.109.103:3306
+ENV MYSQL_USERNAME=SFA
+ENV MYSQL_PASSWORD=123qwe!@#QWE
 
 # 安装依赖到指定的/install文件夹
 # 选用国内镜像源以提高下载速度
@@ -47,3 +46,4 @@ EXPOSE 80
 # 写多行独立的CMD命令是错误写法！只有最后一行CMD命令会被执行，之前的都会被忽略，导致业务报错。
 # 请参考[Docker官方文档之CMD命令](https://docs.docker.com/engine/reference/builder/#cmd)
 CMD ["python3", "manage.py", "runserver", "0.0.0.0:80"]
+

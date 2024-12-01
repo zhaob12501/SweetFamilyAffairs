@@ -83,21 +83,21 @@ WSGI_APPLICATION = 'SweetFamilyAffairs.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',  # 使用 SQLite 数据库
-    #     'NAME': BASE_DIR / "db.sqlite3",  # 数据库文件的路径
-    # }
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sweetfamilyaffairs',
-        'HOST': '10.40.109.103',  # 使用服务名
-        'USER': 'SFA',
-        'PASSWORD': '123qwe!@#QWE',
-        'PORT': 3306,
-        'OPTIONS': {
-            'charset': 'utf8mb4',
-        },
+        'ENGINE': 'django.db.backends.sqlite3',  # 使用 SQLite 数据库
+        'NAME': BASE_DIR / "db.sqlite3",  # 数据库文件的路径
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'SweetFamilyAffairs',
+    #     'HOST': os.environ.get('MYSQL_ADDRESS', "").split(":")[0] or '10.40.109.103',  # 使用服务名
+    #     'USER': os.environ.get('DATABASE_USER', 'root'),
+    #     'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
+    #     'PORT': 3306,
+    #     'OPTIONS': {
+    #         'charset': 'utf8mb4',
+    #     },
+    # }
 }
 
 # Password validation
