@@ -1,6 +1,7 @@
 from django.urls import path, include, re_path
+from users.views import WeChatLoginView
 
 urlpatterns = [
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('login/', WeChatLoginView.as_view()),
     path('', include('items.urls')),
 ]
