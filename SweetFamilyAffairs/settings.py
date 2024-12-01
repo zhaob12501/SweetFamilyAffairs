@@ -89,7 +89,7 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'SweetFamilyAffairs',
+        'NAME': 'sweetfamilyaffairs',
         'HOST': os.environ.get('DATABASE_HOST', '10.40.109.103'),  # 使用服务名
         'USER': os.environ.get('DATABASE_USER', 'root'),
         'PASSWORD': os.environ.get('DATABASE_PASSWORD', '123qwe!@#QWE'),
