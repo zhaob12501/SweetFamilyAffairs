@@ -1,19 +1,21 @@
 from django.http import JsonResponse
 from rest_framework import viewsets
 from django.contrib.auth import get_user_model
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
-from users.serializers import WxUserSerializer
+from users.models import Family
+from users.serializers import UserSerializer, FamilySerializer
 
 User = get_user_model()
 
-class WxUserViewSet(viewsets.ModelViewSet):
+class FimalyViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = Family.objects.all()
+    serializer_class = FamilySerializer
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = User.objects.all()
-    serializer_class = WxUserSerializer
-
-
-class WxUserLoginAPIView(APIView):
-    def post(self, request, *args, **kwargs):
-        headers = request.META
-        print(headers)
-        return JsonResponse({"msg": "OK"})
+    serializer_class = UserSerializer

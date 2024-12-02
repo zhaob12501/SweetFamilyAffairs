@@ -60,7 +60,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
-    'rest_framework_simplejwt',
 
     'items',
     'users',
@@ -162,19 +161,21 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'users.authentication.WxAuthentication',  # 使用自定义认证类
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ),
 }
 
-# JWT 配置（可根据需要调整）
-SIMPLE_JWT = {
-    # Token 有效时长
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
-    # Token刷新后有效时长
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+# # JWT 配置（可根据需要调整）
+# SIMPLE_JWT = {
+#     # Token 有效时长
+#     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+#     # Token刷新后有效时长
+#     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+#
+#     "TOKEN_OBTAIN_SERIALIZER": "users.models.WxTokenObtainSerializer",
+# }
 
-    "TOKEN_OBTAIN_SERIALIZER": "users.models.WxTokenObtainSerializer",
-}
 
-
-AUTH_USER_MODEL = 'users.WxUser'
+AUTH_USER_MODEL = 'users.User'

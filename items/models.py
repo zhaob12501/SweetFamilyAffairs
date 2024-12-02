@@ -1,6 +1,6 @@
 from django.db import models
 
-from users.models import WxUser
+from users.models import User, Family
 
 class HouseholdTaskType(models.Model):
     """
@@ -25,7 +25,9 @@ class HouseholdTask(models.Model):
     - points_value: 完成任务后用户可以获得的积分值。
     - description: 任务的详细描述。
     - task_type: 任务所属的类型。
+    - family: 与家庭(Fimaly)进行外键绑定
     """
+    family = models.ForeignKey(Family, on_delete=models.CASCADE)
     task_name = models.CharField(max_length=100, verbose_name="任务名称")
     points_value = models.IntegerField(verbose_name="积分值")
     description = models.TextField(blank=True, null=True, verbose_name="描述")
@@ -41,12 +43,14 @@ class HouseholdTask(models.Model):
 class TaskCompletion(models.Model):
     """
     任务完成记录模型，用于记录用户完成任务的情况。
-    - user: 完成任务的用户，与User模型建立外键关联。
-    - task: 完成的任务，与HouseholdTask模型建立外键关联。
+    - user: 完成任务的用户，与用户(User)模型建立外键关联。
+    - task: 完成的任务，与家务任务模型(HouseholdTask)建立外键关联。
     - completion_time: 完成任务的时间。
     - points_earned: 用户完成任务后获得的积分。
+    - family: 与家庭(Fimaly)进行外键绑定
     """
-    user = models.ForeignKey(WxUser, on_delete=models.CASCADE, related_name='task_completions', verbose_name="用户")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='task_completions', verbose_name="用户")
+    family = models.ForeignKey(Family, on_delete=models.CASCADE)
     task = models.ForeignKey(HouseholdTask, on_delete=models.CASCADE, related_name='completions', verbose_name="任务")
     completion_time = models.DateTimeField(auto_now_add=True, verbose_name="完成时间")
     points_earned = models.IntegerField(verbose_name="获得积分")
@@ -66,7 +70,9 @@ class RedeemItem(models.Model):
     - description: 物品的详细描述。
     - stock_quantity: 物品的库存数量。
     - status: 物品的兑换状态，例如“可兑换”或“已兑换完”。
+    - family: 与家庭(Fimaly)进行外键绑定
     """
+    family = models.ForeignKey(Family, on_delete=models.CASCADE)
     item_name = models.CharField(max_length=100, verbose_name="物品名称")
     points_required = models.IntegerField(verbose_name="所需积分")
     description = models.TextField(blank=True, null=True, verbose_name="描述")
@@ -87,8 +93,10 @@ class PointsHistory(models.Model):
     - points_change: 积分的变化量。
     - change_reason: 积分变化的原因。
     - change_time: 积分变化的时间。
+    - family: 与家庭(Fimaly)进行外键绑定
     """
-    user = models.ForeignKey(WxUser, on_delete=models.CASCADE, related_name='points_history', verbose_name="用户")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='points_history', verbose_name="用户")
+    family = models.ForeignKey(Family, on_delete=models.CASCADE)
     points_change = models.IntegerField(verbose_name="积分变化")
     change_reason = models.CharField(max_length=100, verbose_name="变化原因")
     change_time = models.DateTimeField(auto_now_add=True, verbose_name="变化时间")
@@ -107,8 +115,10 @@ class PointsRedeem(models.Model):
     - item: 被兑换的物品，与RedeemItem模型建立外键关联。
     - points_used: 兑换物品时使用的积分。
     - redeem_time: 兑换物品的时间。
+    - family: 与家庭(Fimaly)进行外键绑定
     """
-    user = models.ForeignKey(WxUser, on_delete=models.CASCADE, related_name='points_redeem', verbose_name="用户")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='points_redeem', verbose_name="用户")
+    family = models.ForeignKey(Family, on_delete=models.CASCADE)
     item = models.ForeignKey(RedeemItem, on_delete=models.CASCADE, related_name='redeemed_by', verbose_name="物品")
     points_used = models.IntegerField(verbose_name="使用的积分")
     redeem_time = models.DateTimeField(auto_now_add=True, verbose_name="兑换时间")

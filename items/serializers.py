@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import HouseholdTask, HouseholdTaskType, TaskCompletion, RedeemItem, PointsHistory, PointsRedeem
-
+from users.serializers import UserSerializer, FamilySerializer
 
 class HouseholdTaskTypeSerializer(serializers.ModelSerializer):
     """
@@ -17,6 +17,7 @@ class HouseholdTaskSerializer(serializers.ModelSerializer):
     家务任务序列化器，用于将 HouseholdTask 模型转换为 JSON 格式。
     """
     task_type = HouseholdTaskTypeSerializer()  # 嵌套序列化器
+    family = FamilySerializer()
 
     class Meta:
         model = HouseholdTask
@@ -50,6 +51,9 @@ class TaskCompletionSerializer(serializers.ModelSerializer):
     """
     任务完成记录序列化器
     """
+    user = UserSerializer()
+    family = FamilySerializer()
+    task = HouseholdTaskSerializer()
     class Meta:
         model = TaskCompletion
         fields = '__all__'
@@ -58,6 +62,7 @@ class RedeemItemSerializer(serializers.ModelSerializer):
     """
     兑换物品序列化器
     """
+    family = FamilySerializer()
     class Meta:
         model = RedeemItem
         fields = '__all__'
@@ -66,6 +71,8 @@ class PointsHistorySerializer(serializers.ModelSerializer):
     """
     积分历史序列化器
     """
+    user = UserSerializer()
+    family = FamilySerializer()
     class Meta:
         model = PointsHistory
         fields = '__all__'
@@ -74,6 +81,10 @@ class PointsRedeemSerializer(serializers.ModelSerializer):
     """
     积分兑换序列化器
     """
+    user = UserSerializer()
+    family = FamilySerializer()
+    item = RedeemItemSerializer()
+
     class Meta:
         model = PointsRedeem
         fields = '__all__'
