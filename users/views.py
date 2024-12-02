@@ -15,6 +15,5 @@ class WxUserViewSet(viewsets.ModelViewSet):
 class WxUserLoginAPIView(APIView):
     def post(self, request, *args, **kwargs):
         headers = request.META
-        return JsonResponse(
-            headers
-        )
+        print(headers)
+        return JsonResponse({"msg": "OK"})
