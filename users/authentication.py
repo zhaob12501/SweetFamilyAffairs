@@ -8,7 +8,7 @@ from .models import User, Family
 class WxAuthentication(BaseAuthentication):
     def authenticate(self, request):
         # 从请求头中获取自定义的认证信息
-        print({k: v for k, v in request.META if k.startswith('HTTP_X_WX_')})
+        print({k: v for k, v in request.META.items() if k.startswith('HTTP_X_WX_')})
         openid = request.META.get('HTTP_X_WX_OPENID')
         unionid = request.META.get('HTTP_X_WX_UNIDENTIFIER')
         if not openid:
