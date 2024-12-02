@@ -19,3 +19,9 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+
+class WxAuthView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        return JsonResponse({k: v for k, v in request.META.items() if k.startswith('HTTP_X_WX_')})
