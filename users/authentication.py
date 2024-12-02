@@ -8,12 +8,14 @@ from .models import User, Family
 class WxAuthentication(BaseAuthentication):
     def authenticate(self, request):
         # 从请求头中获取自定义的认证信息
+        print({k: v for k, v in request.META if k.startswith('HTTP_X_WX_')})
         openid = request.META.get('HTTP_X_WX_OPENID')
+        unionid = request.META.get('HTTP_X_WX_UNIDENTIFIER')
         if not openid:
             return None  # 没有提供openid，返回 None
 
         try:
-            user = self.get_user_from_token(openid)
+            user = self.get_user_from_openid(openid, unionid)
         except IndexError:
             raise AuthenticationFailed('Invalid token format')
         except User.DoesNotExist:
@@ -21,7 +23,7 @@ class WxAuthentication(BaseAuthentication):
 
         return (user, None)  # 返回用户和 None（无额外信息）
 
-    def get_user_from_token(self, openid):
+    def get_user_from_openid(self, openid, unionid):
         # 根据 openid 获取用户的逻辑
         try:
             return User.objects.get(openid=openid)
@@ -34,6 +36,6 @@ class WxAuthentication(BaseAuthentication):
                 id=family_id,
                 defaults={'name': family_name}  # 设置默认名称
             )
-            user = User.objects.create(username=f'用户{User.objects.count() + 10001}', openid=openid, family=family)
+            user = User.objects.create(username=f'用户{User.objects.count() + 10001}', openid=openid, unionid=unionid, family=family)
             user.set_password(user.username)
             return user
