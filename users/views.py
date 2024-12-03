@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from rest_framework import viewsets
 from django.contrib.auth import get_user_model
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from users.models import Family
@@ -24,4 +25,7 @@ class UserViewSet(viewsets.ModelViewSet):
 class WxAuthView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
-        return JsonResponse({k: v for k, v in request.META.items() if k.startswith('HTTP_X_WX_')})
+        openid = request.META.get('HTTP_X_WX_OPENID')
+        user = User.objects.get(openid=openid)
+        serializer = UserSerializer(instance=user)
+        return Response(serializer.data)
