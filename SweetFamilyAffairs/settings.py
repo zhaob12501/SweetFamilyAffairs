@@ -100,21 +100,21 @@ TEMPLATES = [
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',  # 使用 SQLite 数据库
-    #     'NAME': BASE_DIR / "db.sqlite3",  # 数据库文件的路径
-    # }
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'SweetFamilyAffairs',
-        'HOST': os.environ.get('MYSQL_HOST') ,  # 使用服务名
-        'USER': os.environ.get('MYSQL_USERNAME'),
-        'PASSWORD': os.environ.get('MYSQL_PASSWORD'),
-        'PORT': os.environ.get('MYSQL_PORT'),
-        'OPTIONS': {
-            'charset': 'utf8mb4',
-        },
+        'ENGINE': 'django.db.backends.sqlite3',  # 使用 SQLite 数据库
+        'NAME': BASE_DIR / "db.sqlite3",  # 数据库文件的路径
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'SweetFamilyAffairs',
+    #     'HOST': os.environ.get('MYSQL_HOST') ,  # 使用服务名
+    #     'USER': os.environ.get('MYSQL_USERNAME'),
+    #     'PASSWORD': os.environ.get('MYSQL_PASSWORD'),
+    #     'PORT': os.environ.get('MYSQL_PORT'),
+    #     'OPTIONS': {
+    #         'charset': 'utf8mb4',
+    #     },
+    # }
 }
 
 # Password validation
